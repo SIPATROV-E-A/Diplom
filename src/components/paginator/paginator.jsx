@@ -1,22 +1,20 @@
- import React, { useState, useEffect } from 'react';
+ import { useEffect } from 'react';
   import { useState } from 'react';
 import api from '../utilites/api';
+import React from 'react';
+
   
-  export const Paginator =(cards, getPostlist)=>{
-  const [cards, setCards]=useState([]);
-  const [loading, setLoading]=useState([false]);
-  const [currentPage, setCurrentPage]=useState([1]);
-  const [sardsListPage]=useState([10]);
+  export const Paginator =({cardsListPage,totalCards})=>{
+const pageCards =[];
+for (let i=1; i<Math.ceil(totalCards/cardsListPage); i++){
+  pageCards.push(i)
+}
 
-useEffect(()=>{
-
-    const getCards = async ()=>{
-        setLoading(true);
-        const res = await api.getPostList(cards);
-        setCards(res);
-        setLoading(false)
-        console.log(res.data);
-    }
-}),[]
+return (
+  <div>
+    <ul className='pagination'></ul>
+  </div>
+)
 
   }
+  

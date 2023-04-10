@@ -20,6 +20,7 @@ import { ModalPost } from '../Form/Modal/modalPost';
 import { Profile } from '../profile/profile';
 import { FaqPage } from '../page/faq/faq';
 import {NoMatchFound} from '../page/NoMatchFound/noMatchFound'
+import { Paginator } from '../paginator/paginator';
 
 
 
@@ -107,7 +108,31 @@ console.log('works');
 
  const deletePost = (cardId)=>{
 setCards(cards.filter(card=>card._id !==cardId));
+
+/////////////////////////////////////////////
+
+
   }
+//  const [cards, setCards]=useState([]);
+const [loading, setLoading]=useState([false]);
+const [currentPage, setCurrentPage]=useState([1]);
+const [cardsListPage]=useState([10]);
+
+useEffect(()=>{
+
+  const getCards = async ()=>{
+      setLoading(true);
+      const res = await api.getPostList();
+      setCards(res);
+      setLoading(false)
+      console.log({res});
+  }
+  getCards();
+},[])
+const lastPageIndex = currentPage*cardsListPage;
+const firstIndexPage = lastPageIndex-cardsListPage;
+const currentCards = cards.clise(firstIndexPage,lastPageIndex)
+
 
   return (
     <>
@@ -186,6 +211,7 @@ setCards(cards.filter(card=>card._id !==cardId));
                   </Route>
                   <Route path='*' element={<NoMatchFound/>}></Route>
                 </Routes>
+                <Paginator />
                 <Footer setActiveModal={setActiveModal}/>
 
               </div>
